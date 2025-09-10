@@ -11,10 +11,10 @@ from user.serializers import UserSerializer
 
 class CreateUserView(generics.CreateAPIView):
     serializer_class = UserSerializer
+    permission_classes = [permissions.AllowAny]
 
 
 class UserListView(APIView):
-    authentication_classes = [authentication.TokenAuthentication]
     permission_classes = [permissions.IsAdminUser]
 
     def get(self, request):
@@ -29,8 +29,6 @@ class CreateTokenView(ObtainAuthToken):
 
 class ManageUserView(generics.RetrieveUpdateAPIView):
     serializer_class = UserSerializer
-    permission_classes = [permissions.IsAuthenticated]
-    authentication_classes = (TokenAuthentication, )
 
     def get_object(self):
         return self.request.user
